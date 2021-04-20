@@ -1,6 +1,6 @@
 package ar.edu.unahur.obj2.caralibro
 
-class Usuario {
+class Usuario() {
   val publicaciones = mutableListOf<Publicacion>()
 
   fun agregarPublicacion(publicacion: Publicacion) {
