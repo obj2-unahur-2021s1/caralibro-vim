@@ -1,6 +1,8 @@
 package ar.edu.unahur.obj2.caralibro
 
 import io.kotest.core.spec.style.DescribeSpec
+import io.kotest.matchers.booleans.shouldBeFalse
+import io.kotest.matchers.booleans.shouldBeTrue
 import io.kotest.matchers.shouldBe
 
 class UsuarioTest : DescribeSpec({
@@ -39,12 +41,33 @@ class UsuarioTest : DescribeSpec({
         }
 
         describe("Un usuario") {
+            val juana = Usuario()
+            val marito = Usuario()
+            val rober = Usuario()
             it("puede calcular el espacio que ocupan sus publicaciones") {
-                val juana = Usuario()
                 juana.agregarPublicacion(fotoEnCuzco)
                 juana.agregarPublicacion(saludoCumpleanios)
                 juana.agregarPublicacion(videoEnLaMontania)
                 juana.espacioDePublicaciones().shouldBe(550608)
+            }
+
+            it("El usuario es igual amistoso que otro") {
+                rober.agregarUnAmigo(juana)
+                rober.agregarUnAmigo(marito)
+
+                juana.agregarUnAmigo(rober)
+                juana.agregarUnAmigo(marito)
+
+                rober.esMasAmistoso(juana).shouldBeFalse()
+            }
+
+            it("El usuario es mas amistoso que otro") {
+                rober.agregarUnAmigo(juana)
+                rober.agregarUnAmigo(marito)
+
+                juana.agregarUnAmigo(rober)
+
+                rober.esMasAmistoso(juana).shouldBeTrue()
             }
         }
 
