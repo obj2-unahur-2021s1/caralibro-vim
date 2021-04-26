@@ -7,10 +7,13 @@ import io.kotest.matchers.shouldBe
 
 class UsuarioTest : DescribeSpec({
     describe("Caralibro") {
-        val saludoCumpleanios = Texto("Felicidades Pepito, que los cumplas muy feliz")
-        val fotoEnCuzco = Foto(768, 1024)
-        val fotoEnLaBombonera = Foto(768, 1024)
-        val videoEnLaMontania = Video(60)
+        val juana = Usuario()
+        val marito = Usuario()
+        val rober = Usuario()
+        val saludoCumpleanios = Texto(juana,"Felicidades Pepito, que los cumplas muy feliz", Visibilidad.PUBLICO)
+        val fotoEnCuzco = Foto(juana,768, 1024, Visibilidad.PUBLICO)
+        val fotoEnLaBombonera = Foto(marito,768, 1024, Visibilidad.PUBLICO)
+        val videoEnLaMontania = Video(rober, 60,Calidad.HD1080, Visibilidad.PUBLICO)
 
         describe("Una publicación") {
             describe("de tipo foto") {
@@ -30,20 +33,18 @@ class UsuarioTest : DescribeSpec({
                     videoEnLaMontania.espacioQueOcupa().shouldBe(60)
                 }
                 it("ocupa tantos bytes como su duracion por 3") {
-                    videoEnLaMontania.calidad = 720
+                    videoEnLaMontania.calidad = Calidad.HD720
                     videoEnLaMontania.espacioQueOcupa().shouldBe(180)
                 }
                 it("ocupa tantos bytes como su duracion por el doble de 720") {
-                    videoEnLaMontania.calidad = 1080
+                    videoEnLaMontania.calidad = Calidad.HD1080
                     videoEnLaMontania.espacioQueOcupa().shouldBe(360)
                 }
             }
         }
 
         describe("Un usuario") {
-            val juana = Usuario()
-            val marito = Usuario()
-            val rober = Usuario()
+
             it("puede calcular el espacio que ocupan sus publicaciones") {
                 juana.agregarPublicacion(fotoEnCuzco)
                 juana.agregarPublicacion(saludoCumpleanios)
@@ -51,7 +52,7 @@ class UsuarioTest : DescribeSpec({
                 juana.espacioDePublicaciones().shouldBe(550608)
             }
 
-            it("El usuario es igual amistoso que otro") {
+            it("El usuario es igual de amistoso que otro") {
                 rober.agregarUnAmigo(juana)
                 rober.agregarUnAmigo(marito)
 

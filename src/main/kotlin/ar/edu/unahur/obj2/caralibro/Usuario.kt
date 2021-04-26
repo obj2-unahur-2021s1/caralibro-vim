@@ -16,6 +16,7 @@ class Usuario() {
   }
 
   fun espacioDePublicaciones() = publicaciones.sumBy { it.espacioQueOcupa() }
+  fun misAmigos() = amigos
   fun cantidadDeAmigos() = amigos.size
 
   fun esMasAmistoso(unAmigo: Usuario): Boolean {
