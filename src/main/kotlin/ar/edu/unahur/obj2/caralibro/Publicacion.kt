@@ -27,6 +27,8 @@ abstract class Publicacion (val owner: Usuario, var visibilidad: Visibilidad, va
         this.visibilidad = nuevaVisibilidad
     }
 
+    fun obtenerUsuarios() = this.usuariosMeGusta
+
     fun esVisiblePor(usuario: Usuario) =
         when (visibilidad) {
             Visibilidad.PUBLICO -> true

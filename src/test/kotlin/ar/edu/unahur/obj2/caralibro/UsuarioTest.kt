@@ -1,5 +1,6 @@
 package ar.edu.unahur.obj2.caralibro
 
+import io.kotest.assertions.show.show
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.booleans.shouldBeFalse
 import io.kotest.matchers.booleans.shouldBeTrue
@@ -10,15 +11,43 @@ class UsuarioTest : DescribeSpec({
         val juana = Usuario()
         val marito = Usuario()
         val rober = Usuario()
+        val nico = Usuario()
+        val jose = Usuario()
+        val conny = Usuario()
+        val pri = Usuario()
+        val ramon = Usuario()
+        val privados = listOf(nico, pri, ramon)
+        var excluidos = mutableListOf(rober)
+
         val saludoCumpleanios = Texto(juana,"Felicidades Pepito, que los cumplas muy feliz", Visibilidad.PUBLICO)
-        val fotoEnCuzco = Foto(juana,768, 1024, Visibilidad.PUBLICO)
-        val fotoEnLaBombonera = Foto(marito,768, 1024, Visibilidad.PUBLICO)
+        val fotoEnRio = Foto(juana,768, 1024, Visibilidad.PUBLICO)
         val videoEnLaMontania = Video(rober, 60,Calidad.HD1080, Visibilidad.PUBLICO)
+
+        // Publicaciones de marito
+        val fotoEnCuzco = Foto(marito,768, 1024, Visibilidad.PRIVADO, privados)
+        val fotoEnLaBombonera = Foto(marito,768, 1024, Visibilidad.EXCLUIDOS, excluidos)
+
+        excluidos.add(pri)
+        val fotoEnRiver = Foto(marito,768, 1024, Visibilidad.EXCLUIDOS, excluidos)
+
+        // agrego los amigos de marito
+        marito.agregarUnAmigo(rober)
+        marito.agregarUnAmigo(jose)
+        marito.agregarUnAmigo(nico)
+        marito.agregarUnAmigo(juana)
+        marito.agregarUnAmigo(conny)
+        marito.agregarUnAmigo(pri)
+        marito.agregarUnAmigo(ramon)
+
+        // Agrego las publicaciones al perfil
+        marito.agregarPublicacion(fotoEnCuzco)
+        marito.agregarPublicacion(fotoEnLaBombonera)
+        marito.agregarPublicacion(fotoEnRiver)
 
         describe("Una publicación") {
             describe("de tipo foto") {
                 it("ocupa ancho * alto * compresion bytes") {
-                    fotoEnCuzco.espacioQueOcupa().shouldBe(550503)
+                    fotoEnRio.espacioQueOcupa().shouldBe(550503)
                 }
             }
 
@@ -46,10 +75,10 @@ class UsuarioTest : DescribeSpec({
         describe("Un usuario") {
 
             it("puede calcular el espacio que ocupan sus publicaciones") {
-                juana.agregarPublicacion(fotoEnCuzco)
+                juana.agregarPublicacion(fotoEnRio)
                 juana.agregarPublicacion(saludoCumpleanios)
                 juana.agregarPublicacion(videoEnLaMontania)
-                juana.espacioDePublicaciones().shouldBe(550608)
+                juana.espacioDePublicaciones().shouldBe(550908)
             }
 
             it("El usuario es igual de amistoso que otro") {
@@ -69,6 +98,20 @@ class UsuarioTest : DescribeSpec({
                 juana.agregarUnAmigo(rober)
 
                 rober.esMasAmistoso(juana).shouldBeTrue()
+            }
+
+            it("Es un mejor amigo") {
+
+                val mejoresAmigos = marito.mejoresAmigos()
+
+                mejoresAmigos.contains(ramon).shouldBeTrue()
+            }
+
+            it("No Es un mejor amigo") {
+
+                val mejoresAmigos = marito.mejoresAmigos()
+
+                mejoresAmigos.contains(pri).shouldBeFalse()
             }
         }
 
@@ -92,7 +135,6 @@ class UsuarioTest : DescribeSpec({
                 fotoEnLaBombonera.meGusta(marta)
                 it("Verifico que tenga 2 Me gusta") {
                     fotoEnLaBombonera.cantidadMeGusta().shouldBe(2)
-
                 }
             }
         }

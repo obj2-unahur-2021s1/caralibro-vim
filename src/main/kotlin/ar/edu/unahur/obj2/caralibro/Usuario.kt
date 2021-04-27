@@ -22,4 +22,29 @@ class Usuario() {
   fun esMasAmistoso(unAmigo: Usuario): Boolean {
     return this.cantidadDeAmigos() > unAmigo.cantidadDeAmigos()
   }
+
+  fun mejoresAmigos(): List<Usuario> {
+    val noAmigos = mutableListOf<Usuario>()
+    val mejoresAmigos = mutableListOf<Usuario>()
+
+      val publicacionesRestringidas = publicaciones.filter { it.visibilidad == Visibilidad.PRIVADO }
+      val publicacionesExcluidos    = publicaciones.filter { it.visibilidad == Visibilidad.EXCLUIDOS}
+
+    for(publacion in publicacionesExcluidos) {
+        for(usuario in publacion.obtenerUsuarios()) {
+            if (!noAmigos.contains(usuario)) {
+                noAmigos.add(usuario)
+            }
+        }
+    }
+    for(publacion in publicacionesRestringidas) {
+        for(usuario in publacion.obtenerUsuarios()) {
+            if (!mejoresAmigos.contains(usuario)) {
+              mejoresAmigos.add(usuario)
+            }
+        }
+    }
+
+    return amigos.filter { !noAmigos.contains(it) && mejoresAmigos.contains(it) }
+  }
 }
