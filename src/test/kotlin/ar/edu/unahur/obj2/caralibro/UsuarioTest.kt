@@ -21,7 +21,7 @@ class UsuarioTest : DescribeSpec({
 
         val saludoCumpleanios = Texto(juana,"Felicidades Pepito, que los cumplas muy feliz", Visibilidad.PUBLICO)
         val fotoEnRio = Foto(juana,768, 1024, Visibilidad.PUBLICO)
-        val videoEnLaMontania = Video(rober, 60,Calidad.HD1080, Visibilidad.PUBLICO)
+        val videoEnLaMontania = Video(rober, 60,Calidad.SD, Visibilidad.PUBLICO)
 
         // Publicaciones de marito
         val fotoEnCuzco = Foto(marito,768, 1024, Visibilidad.PRIVADO, privados)
@@ -78,7 +78,7 @@ class UsuarioTest : DescribeSpec({
                 juana.agregarPublicacion(fotoEnRio)
                 juana.agregarPublicacion(saludoCumpleanios)
                 juana.agregarPublicacion(videoEnLaMontania)
-                juana.espacioDePublicaciones().shouldBe(550908)
+                juana.espacioDePublicaciones().shouldBe(550608)
             }
 
             it("El usuario es igual de amistoso que otro") {
