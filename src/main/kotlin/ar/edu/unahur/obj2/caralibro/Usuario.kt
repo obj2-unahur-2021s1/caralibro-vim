@@ -26,5 +26,6 @@ class Usuario() {
         return this.cantidadDeAmigos() > unAmigo.cantidadDeAmigos()
     }
 
+    //  Listo hasta punto 5
     fun mejoresAmigos() = this.amigos.filter { amigo -> this.publicaciones.all { publicacion -> publicacion.esVisiblePor(amigo) } }
 }
